@@ -103,5 +103,41 @@ put the traing numbers into the equations... OR use Gaussian elimination
 
 The given line will be the best with this criteria! If we change it then this not will be true!
 
+## Topic 3 - Linear regression | Least square method | simple model evaluation
+### linear regressions
+- `ŷ = a0+a1 x`
+- `ŷ = a0 + a1x + a2x^2`
+- `ŷ = a0 + a1x + ... + a2x^d`
+
+#### quadratic polynomial (d = 2 )
+- equation for parabola: `ŷ = a0 + a1x + a2x2`
+- when a2 -> 0 shape of parabola approaches straight line
+
+now if we have a dataset with `x` and `y`; at least with 14  rows (`n=14`); we want to calculate `a0`, `a1` and `a2` from `ŷ = a0 + a1x + a2x^2`. As previously before, now we have to use `li` in criteria `S` and `ŷ` model in criteria. With this we got: !S\ =\ \sum_{i=1}^{n}{(y_i-a_0{-a}_1x_i-a_2x_i^2)}^2]https://latex.codecogs.com/gif.latex?S\%20=\%20\sum_{i=1}^{n}{(y_i-a_0{-a}_1x_i-a_2x_i^2)}^2) we have to minimize with the Residual Sum of Squares method.
+
+Now we can take partial derivatives of `a0`, `a1`, `a2`
+- ![\frac{dS}{da_0}=\ -2\sum_{i=1}^{n}\left(y_i-a_0{-a}_1x_i-a_2x_i^2\right)](https://latex.codecogs.com/gif.latex?\frac{dS}{da_0}=\%20-2\sum_{i=1}^{n}\left(y_i-a_0{-a}_1x_i-a_2x_i^2\right))
+- ![\frac{dS}{da_1}=\ -2\sum_{i=1}^{n}{x_i(y_i-a_0{-a}_1x_i-a_2x_i^2)}](https://latex.codecogs.com/gif.latex?\frac{dS}{da_1}=\%20-2\sum_{i=1}^{n}{x_i(y_i-a_0{-a}_1x_i-a_2x_i^2)})
+- ![\frac{dS}{da_2}=\ -2\sum_{i=1}^{n}{{x_i}^2(y_i-a_0{-a}_1x_i-a_2x_i^2)}](https://latex.codecogs.com/gif.latex?\frac{dS}{da_2}=\%20-2\sum_{i=1}^{n}{{x_i}^2(y_i-a_0{-a}_1x_i-a_2x_i^2)})
+
+take eqal with 0, and let's make a linear system of equations from it. 
+- ![na_0+a_1\sum_{i=1}^{n}x_i+a_2\sum_{i=1}^{n}{x_i}^2=\sum_{i=1}^{n}y_i](https://latex.codecogs.com/gif.latex?na_0+a_1\sum_{i=1}^{n}x_i+a_2\sum_{i=1}^{n}{x_i}^2=\sum_{i=1}^{n}y_i)
+- ![a_0\sum_{i=1}^{n}x_i+a_1\sum_{i=1}^{n}{x_i}^2+a_2\sum_{i=1}^{n}{x_i}^3=\sum_{i=1}^{n}{x_iy_i}](https://latex.codecogs.com/gif.latex?a_0\sum_{i=1}^{n}x_i+a_1\sum_{i=1}^{n}{x_i}^2+a_2\sum_{i=1}^{n}{x_i}^3=\sum_{i=1}^{n}{x_iy_i})
+- ![a_0\sum_{i=1}^{n}{x_i}^2+a_1\sum_{i=1}^{n}{x_i}^3+a_2\sum_{i=1}^{n}{x_i}^4=\sum_{i=1}^{n}{{x_i}^2y_i}](https://latex.codecogs.com/gif.latex?a_0\sum_{i=1}^{n}{x_i}^2+a_1\sum_{i=1}^{n}{x_i}^3+a_2\sum_{i=1}^{n}{x_i}^4=\sum_{i=1}^{n}{{x_i}^2y_i})
+
+Now we got `a0`, `a1`, `a2`. If we get an `x` value, we can calculate the `ŷ`. 
+
+Any features can be written as a sum of features.
+
+***But what if we need something more complex than just a sum of features?***
+
+#### Least Squares Method generalized
+
+#### how good is our model?
+> ***always smaller values are better***
+
+Usually get values on `[0,1]` but if the test dataset is different then training data then might be `-1`, so, in that case, don't use that model **!**
+
+more about different models: https://methods.sagepub.com/images/virtual/heteroskedasticity-in-regression/p53-1.jpg
 
 
