@@ -140,4 +140,89 @@ Usually get values on `[0,1]` but if the test dataset is different then training
 
 more about different models: https://methods.sagepub.com/images/virtual/heteroskedasticity-in-regression/p53-1.jpg
 
+[Mean Squared Error VS R-Squared](https://vitalflux.com/mean-square-error-r-squared-which-one-to-use/)
+
+## Topic 4 - Model evaluation and selection - Resampling methods
+> - how good is a model for oour dataset
+> - how to choose the best model for the dataset?
+
+![traingin error](https://drek4537l1klr.cloudfront.net/serrano/v-11/Figures/04_04.png)
+
+- straight line: the model is too simple - R^2: 0.6
+- when the courve fit exactly on data points: overfitting: R^2: 0.99
+
+*When the number of parameters is equal to the number of data points the curve goes exactly through all the points*
+
+![prediction vs training](https://vitalflux.com/wp-content/uploads/2020/12/overfitting-and-underfitting-wrt-model-error-vs-complexity.png)
+
+prediction error is nknown, just training error can be calculated, but we can estimate prediction error!
+
+error means: SAE, MAE, SSE, MSE, RMSE
+
+**Advantages of simple models:**
+- Better predictive performance (except if underfitted)
+- A simple model might use fewer features => fewer measurements or other kinds of data gathering
+- faster 
+- needs less computer memory
+- Simpler models are easier to visualize and interpret
+
+> **Idea**
+> 
+> *We know that when we use a model for prediction, we calculate y for given x which may not be (and usually is not) given in the training dataset. What if we could “simulate” this process? We could use additional evaluation dataset which is not included in the training dataset.*
+
+### Validation set and test set
+- dataset is used for model selection the dataset is called validation set
+- it is used for final estimation of prediction error it is called test set
+
+**The aims of model selection and final evaluation:**
+- **Model selection:** select the best model by evaluating predictive performance of modelscandidates - relative differences between evaluations of different models
+- **Final estimation of the true prediction error:** the true prediction error as closely as possible in this way giving information about the expected error of the model
+
+both cases we can use resampling methods: ***evaluate the model on additional data that was not included in the training***  these additional data points would not be included in the training set, not even in model building
+
+this can happen by:
+- Additionally generated
+- Simply subtracted from the already existing full dataset
+
+#### The three datasets method
+- divide the whole dataset into three subsets (or two, if either validation or testing is not required)
+- the division is usually 60:20:20 or 70:30
+
+#### Hold-Out method
+- Each model-candidate is evaluated using the validation set
+- at given `x` we calculate the error between model’s predicted `ŷ` value and the `y` value given in the validation dataset 
+- ***In the end, the one “best” model is evaluated in the same as using the test set***
+- the order of the data points is randomized!
+- **Advantages:**
+  -  Easy to implement and use
+  -  **Efficiency of computations** – nothing is to be computed more than once 
+- **Disadvantages:**
+  - **can't use on small datasets!**
+    - Considerably reduces the size of the training data
+    - We can get “unlucky” data point combinations in any of the set
+
+![MSE](https://d1zx6djv3kb1v7.cloudfront.net/wp-content/media/2019/11/Differences-between-MSE-and-RMSE-1-i2tutorials.jpg)
+ 
+#### Cross-Validation
+##### k-fold Cross-Validation
+- All examples of the full dataset are randomly reordered
+- divided in `k` subsets of equal size
+- `k` iteration:
+  - each iteration `j`th subset is used as a test set 
+  - other `k – 1` subset is used as a training set
+- , the model is created `k` times; error is calculated `k` times => final evaluation of the model: calculating the average of the errors
+
+![k-fold MSE](https://miro.medium.com/max/1072/1*nx_V9ByIgD4IuYb5Yczl0Q.png)
+
+##### Leave-One-Out Cross-Validation *(k = n)*
+- number of iterations is equal to the number of examples
+- test set always includes only one example but overall through all iterations the evaluation is done on all examples
+
+This is a good alternative for very small datasets because you remove only one example from the training set and you evaluate the model as many times as the possible
+
+Advantages:
+- All the data is used for calculations of model parameters
+- on small dataset better than Hold-out
+disadvantages: 
+- requires k times more iterations than othe ones, so this is slow!
 
