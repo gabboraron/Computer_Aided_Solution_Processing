@@ -226,3 +226,37 @@ Advantages:
 disadvantages: 
 - requires k times more iterations than othe ones, so this is slow!
 
+## Topic 5 - Alternative to the resampling methods General scheme of the whole process
+## Topic 6 - Nearest Neighbors Method
+### Nearest Neighbors
+Using Euclidean distance method to find the distance of two different points: ![\left \| x_q-x_i \right \|=\sum_{j=1}^{m}(x_{qj}-x_{ij})2](https://latex.codecogs.com/gif.latex?\left%20\|%20x_q-x_i%20\right%20\|=\sum_{j=1}^{m}(x_{qj}-x_{ij})2) on ![x_i=(x_{i1},x_{i2} ... x_{im})](https://latex.codecogs.com/gif.latex?x_i=(x_{i1},x_{i2}%20...%20x_{im}))
+
+- ![xq](https://latex.codecogs.com/gif.latex?x_q) is the query point (a vector) - from here we calculate distances to all training examples
+- ![xi](https://latex.codecogs.com/gif.latex?x_i)  the `i`th training example - this is for which we calculate the distance
+- `j` is the feature
+- `m` is the total number of features
+- `n` number of training datapoints
+
+calculate the prediction `ŷ` by simple averaging of `y` over the vound `k` nearest examples: ![\hat{y}=\frac{1}{k}\sum_{i=1}^{k}y_i](https://latex.codecogs.com/gif.latex?\hat{y}=\frac{1}{k}\sum_{i=1}^{k}y_i)
+
+***Larger `k` values reduce influence of noise but smoothes-out predictions!***
+
+To improve predictive performance of k-NN, it is recommended to normalize (rescale values to range [0,1]) ![x_{normalized}=\frac{x-x_{min}}{x_{max}-x_{min}}](https://latex.codecogs.com/gif.latex?x_{normalized}=\frac{x-x_{min}}{x_{max}-x_{min}}) or standardize each feature ![x_{standardized}=\frac{x-\bar{x}}{s}](https://latex.codecogs.com/gif.latex?x_{standardized}=\frac{x-\bar{x}}{s}) where the `s` standardization is ![s=\sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{x})^2 }](https://latex.codecogs.com/gif.latex?s=\sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{x})^2%20})
+
+> **A potential problem**: all of the `k` neighbors are taken into account with the same weight, i.e., they all have the same influence on the result. *only for `k > 1`; if `k = 1` that's the most complex method*
+
+### Weighted nearest neighbors method
+![\hat{y}=\frac{\sum_{i=1}^{k}(w_iy_i)}{\sum_{i=1}^{k}w_i} ](https://latex.codecogs.com/gif.latex?\hat{y}=\frac{\sum_{i=1}^{k}(w_iy_i)}{\sum_{i=1}^{k}w_i})
+
+- Without weighting (uniform): ![w_i=1](https://latex.codecogs.com/gif.latex?w_i=1)
+- Inverted distance: ![w_i=1/\left \| x_q-x_i \right \|](https://latex.codecogs.com/gif.latex?w_i=1/\left%20\|%20x_q-x_i%20\right%20\|)
+- Predictive performance of `k-NN` can be considerably reduced by having too many features: - Feature subset selection might help
+
+#### advantages
+- fast learning - all the examples in memory
+- very felxible - able to capture complex patterns using very simple principles
+- fast update - more exaplest to training data there is no need in training a new model
+
+#### disadvantages
+- serious predictive performance issues for highly dimensional data, especially if the number of data points is small <- feature selection
+- needs realatively large computational resources - the learning is fast but the prediction is slow
