@@ -260,3 +260,93 @@ To improve predictive performance of k-NN, it is recommended to normalize (resca
 #### disadvantages
 - serious predictive performance issues for highly dimensional data, especially if the number of data points is small <- feature selection
 - needs realatively large computational resources - the learning is fast but the prediction is slow
+
+## Subset selection, model building, state space, heuristic search
+> literature: [Trevor Hastie, Robert Tibshirani, Jerome Friedman - The Elements of Statistical Learning: Data Mining, Inference, and Prediction](https://hastie.su.domains/ElemStatLearn/)
+> 
+> *Report & projects*
+> - deadline: may 2 
+> - choose between report and project
+> - writing a report: find a literature, write a report about the topic
+>   - choose 3 topics - from these one you will give one
+> -  
+
+Finding a good model, by balancing between underfitting and overfitting, is not only about:
+-  best value for some hyperparameter
+-  selecting best degree for the polynomial in linear regression
+-  selecting best k value for k-NN method
+-  etc
+
+Not all features might be useful
+- Irrelevant features don’t give any useful information for prediction purposes *ex: car color when you want to estimate fuel consumption of the car*
+- Redundant features strongly correlate with each other and so it might be that only one of them is actually useful *ex volume of engine (engine displacement) in cubic centimeters vs. cubic inches, or for example product’s price vs. VAT of the price*
+
+*example: model of house price*
+- *redundant: area, nr of rooms*
+- *irrelevant: color of building*
+- *not sure we need: floor number, nr of floors in the building*
+- *we need for sure: year of construction*
+
+In order to obtain a statistically reasonable result, the amount of data needed to support the result grows fast, it can grow even exponentially, with the dimensionality, even if you keep only the useful features, you still have too many of them
+
+**Solutions to these problems are:**
+- Remove features that are the least useful
+- Use methods that transforms the data in high-dimensional space to a space of fewer dimensions, *ex: Principal Component Analysis (PCA)*
+
+### Dimensionality reduction
+> in case of linear regression, selecting the necessary features can be done either on the level of original input variables or on the level of the transformations
+> 
+> How to find which features to use:
+> - Feature subset selection because we are searching for the “best” subset of the full set of features
+> - Model selection because we are choosing one “best” model from a number of possible models
+> - Model building because we are building a model from the available components (features, their transformations)
+> 
+> ***The lower is the number of examples in your dataset (compared to the number of features) the more important is the feature selection problem***
+
+#### Feature subset selection
+- “Manual” feature selection is practical only with small number of features and/or features that can be easily understood.
+- While working with just a few features, the data and the model can be visualized, interpreted, and evaluated relatively easily: `nr_of_features - 1` is the dimension of the model
+- to formalize this process and make it automatic: 
+
+![feature selection method](https://www.analyticsvidhya.com/wp-content/uploads/2016/11/Wrapper_1.png)
+
+Evaluate all possible combinations (all possible models) and choose the best. Big problem: the number of combinations of features grows exponentially.
+
+***The number of all possible combinations is `2^m`, where `m` is the total number of features defined.*** This means a big problem if we use exhaustive search or brute force.
+
+We need a type of search that enables us to find good combinations/models without requiring huge computational resources => Solution – use heuristics
+
+- Advantage – significant savings of time (e.g., not days, months, or years but seconds, minutes, or hours)
+- Disadvantage – such algorithms do not guarantee optimality of the results, instead they can give us good solutions in within a reasonable time. – this is usually good enough.
+##### heuristic sarch
+1. Initial state The combination with which we begin our search.
+2. State-transition operators The available ways to modify the combination.
+3. Search strategy Which combinations to evaluate and where to go next.
+4. State evaluation criterion Criterion for evaluation of the created combinations.
+5. Termination condition When to stop the search
+
+typical variations:
+1. Initial state - Empty set (no features included, “00000”), full set (all features included, “11111”), random subset.
+2. State-transition operators - The two typical operators: addition of one feature (0 -> 1), deletion of one feature (1 -> 0). There can be also other operators, e.g., genetic algorithms use crossover and mutation 
+3. Search strategy - 
+  - Hill Climbing,
+  - Beam Search,
+  - Floating Search,
+  - Simulated Annealing, 
+  - imitation of evolution (in Genetic Algorithms) etc.
+4. State evaluation criterion - In our case: Hold-out, Cross-Validation, MDL, AIC, AICC etc.
+5. Termination condition - When none of the operators can find a better state (local minimum found). When none of the operators are applicable anymore. When a predefined number of iterations are done. When a predefined error rate is reached. When a predefined time is elapsed. Etc
+
+#### SFS algo
+1. Initial state - Empty set (no features included, “00000”).
+2. State-transition operators - Addition of one feature to the model (0 -> 1)
+3. Search strategy - A variation of Hill Climbing
+4. State evaluation criterion - (We can use any suitable criterion)
+5. Termination condition
+   a) When none of the operators can find a better state (local minimum found).
+   b) When none of the operators are applicable (i.e., for SFS this means that the state with all bits equal to 1 is reached). [In next slides, the (b) version of the algorithm is explained.]
+
+![SFS algo](https://www.researchgate.net/profile/Ke-Yan-4/publication/320929651/figure/fig2/AS:666223767478272@1535851532304/The-comparison-of-traditional-SFS-algorithm-and-the-proposed-BT-SFS-algorithm.png)
+
+##### Bit representation: 
+a linear regression modell look like this: `ŷ = a0 + a1x1 + a2x2 + a3x3 + a4x4 + a5x5` each `x` is a feature, int his case we have 5 features, so we need 5 bits: `00000` is where none of the features is used, and `11111` where all of them. 
