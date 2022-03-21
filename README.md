@@ -350,3 +350,44 @@ typical variations:
 
 ##### Bit representation: 
 a linear regression modell look like this: `ŷ = a0 + a1x1 + a2x2 + a3x3 + a4x4 + a5x5` each `x` is a feature, int his case we have 5 features, so we need 5 bits: `00000` is where none of the features is used, and `11111` where all of them. 
+
+# Genetic Algorithms (GA)
+- global optimization
+
+> - search the space globally in multiple regions at the same time as well as by doing jumps of different lengths
+> - local minima problem is not as pronounced
+
+## Genetic algorithms have many variations and they are widely applicable to different optimization problems
+The basic components:
+1. initial state: empty set: no features: `0000` or full state: `1111`
+2. state-transition operations: addtion of one feature, deletion of a feature *using crossover mutation*
+3. search strategy: Hill Climbing, Beam Search, Floating Search, Simulated Annealing, imitation of evolution
+4. State evaluation criterion In our case: Hold-out,
+5. Termination condition When none of the operators can find a better state. When a predefined number of iterations are done. When a predefined error rate is reached. 
+
+> *Note that in the case of imitation of evolution (like it is in GA), the algorithm works with multiple solutions at the same time, instead of just improving one solution (as in the algorithms from the last lecture).*
+
+### short about natural evolution:
+- Natural selection – survival of the fittest.
+- Population of individuals live and reproduce in an environment of limited resources.
+- The fittest individuals survive and pass their genes to offspring. The offspring are potentially even more fit to the environment than their parents.
+- Less fit individuals have lower chances of surviving and getting to produce any offspring (in the amount necessary for the harshness of the environment).
+- Therefore the population through generations becomes more and more fit to the environment.
+- Evolution is optimization.
+
+### implementation and terminology:
+- A population of individuals where each individual is a possible solution
+- Each individual is defined by its chromosome
+- chromosome consists of a number of genes
+- A fitness function evaluates fitness of individuals. The whole goal of the GA is to either minimize or maximize this function
+
+> ## The general algorithm:
+> 1. Randomly generate initial generation (“primordial soup”)
+> 2. Evaluate all individuals (fitness estimation)
+> 3. Selection – select individuals for reproduction
+> 4. Crossover – selected individuals produce offspring
+> 5. Mutation – small random changes in offspring
+> 6. With the new generation go to step 2
+>
+>  continues until a predefined number of generations (iterations) is reached
+
