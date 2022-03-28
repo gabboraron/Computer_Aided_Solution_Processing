@@ -391,3 +391,98 @@ The basic components:
 >
 >  continues until a predefined number of generations (iterations) is reached
 
+# Other applications of Genetic Algorithms (and other similar algorithms)
+What do we need:
+- How do we encode the structure that must be optimized (so that it can be manipulated using unified and simple crossover and mutation operators)
+- How do we quantitatively estimate the quality of the structure – its “nearness” to our optimization goal (development of the fitness function)
+
+In feature subset selection they were: 
+- A string of bits (inclusion/exclusion of features)
+- A function for estimating model’s prediction error
+
+## Possibilities in applying Genetic Algorithms:
+> ### Linear structure with fixed number of elements
+> #### Optimization of combination of elements
+> - Genes are bits
+> - Examples – feature subset selection, mathematical transformation selection, “knapsack” problem etc.
+> - + bits can be used to represent more than two values
+> 
+> #### Optimization of element numeric values
+> - Genes are real numbers or integers
+> - Examples – real-valued parameter optimization of configuration for any system or construction
+> 
+> #### Optimization of element order
+> - Genes are identifiers
+> - Examples – pathfinding, planning utt
+> 
+> ### non-linear structures, dynamic length
+
+
+## Application example (1)
+> Traveling Salesman Problem (TSP)
+> - Encoding: the nodes of the graph
+> - Evaluation: path length
+> 
+> more in:[ Traveling Salesman Problem – Genetic Algorithm - Will Campbell](https://blogs.mathworks.com/pick/2011/10/14/traveling-salesman-problem-genetic-algorithm/), [A Comparative Study of Adaptive Crossover Operators for Genetic Algorithms to Resolve the Traveling Salesman Problem - ABDOUN Otman, ABOUCHABAKA Jaafar](https://arxiv.org/ftp/arxiv/papers/1203/1203.3097.pdf)
+## Application example (2)
+> Tetris
+>
+> Optimization of the evaluation function; paramters:
+> - Pile height (X1)
+> - Number of holes (X2)
+> - Sum of pit depths (X3)
+> - Lowest column (X4)
+> - (+ various other attributes)
+> 
+> where 
+> - Encoding: parameters ai of the game field’s attributes: real numbers in range [-1,1]
+> - Evaluation: number of points scored while playing Tetris using the evaluation function. placement and rotation is made by finding what would maximize the evaluation function
+> `Evaluation of game field = a1X1 + a2X2 + a3X3 + a4X4 + ..` *this is not a regression model!*
+> 
+> more in [How to design good Tetris players Amine Boumaza](https://hal.inria.fr/hal-00926213/document), [An Evolutionary Approach to Tetris - Niko Böhm G. Kókai, Stefan Mandl](https://www.semanticscholar.org/paper/An-Evolutionary-Approach-to-Tetris-Niko-B%C3%B6hm-K%C3%B3kai-Mandl/b0fe1ed14404db2eb1db6a777961440723d6e06f?p2df)
+
+## Application example (3)
+> Optimization of structure parameters
+> Structural optimization of a part of aircraft’s airframe parameters as 
+> - length (x1)
+> - thickness (x2)
+> - rib height (x3)
+> - distance between ribs (x4)
+> - radius of the structure (x5) 
+> - etc. 
+> 
+> the aim: maximizing load-bearing performance while minimizing weight/cost
+> - Encoding: array of real numbers
+> - Evaluation: load-bearing test as experiment, simulation, or regression model
+
+## Application example (4)
+> Optimization of structural topology in engineering design
+> - Encoding: binary matrix
+> - Evaluation: structural / load-bearing performance simulations, weight, cost, ..
+>
+> more in: [STRUCTURAL TOPOLOGY OPTIMIZATION VIA THE GENETIC ALGORITHM by Colin Donald Chapman](https://core.ac.uk/download/pdf/4400373.pdf) or [Structural Topology Optimization Using Genetic Algorithms T.Y. Chen and Y.H. Chiou](http://www.iaeng.org/publication/WCE2013/WCE2013_pp1933-1937.pdf)
+
+## Application example (5)
+> A computer game: [Neuro-Evolving Robotic Operatives (NERO)](http://nn.cs.utexas.edu/nero/)
+> - individual’s behavior is defined by artificial neural network Genetic algorithm optimizes topology of the neural network for maximum combat efficiency of individuals
+> 
+> - Encoding: topology of neural network: 
+> - evaluation: survival time, number of terminated opponents a.o.
+
+## Application example (6)
+> [Evolution of a 2D car](http://rednuht.org/genetic_cars_2/)
+> 
+> the ground is become more-more complex, so what kind of car should be designed
+> - Evaluation: distance driven (on gradually increased terrain complexity)
+> - Encoding: sizes of frame parts, wheel sizes, wheel positions, wheel density, chassis density
+
+## Other algorithms
+other global optimization algorithms:
+- Evolutionary Strategies
+- Particle Swarm Optimization
+- Covariance Matrix Adaptation Evolution Strategy
+- Ant Colony Optimization
+- Bee Colony Optimization
+- Memetic Algorithm
+- etc
+
