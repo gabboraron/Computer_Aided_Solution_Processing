@@ -418,13 +418,13 @@ In feature subset selection they were:
 > ### non-linear structures, dynamic length
 
 
-## Application example (1)
+### Application example (1)
 > Traveling Salesman Problem (TSP)
 > - Encoding: the nodes of the graph
 > - Evaluation: path length
 > 
 > more in:[ Traveling Salesman Problem – Genetic Algorithm - Will Campbell](https://blogs.mathworks.com/pick/2011/10/14/traveling-salesman-problem-genetic-algorithm/), [A Comparative Study of Adaptive Crossover Operators for Genetic Algorithms to Resolve the Traveling Salesman Problem - ABDOUN Otman, ABOUCHABAKA Jaafar](https://arxiv.org/ftp/arxiv/papers/1203/1203.3097.pdf)
-## Application example (2)
+### Application example (2)
 > Tetris
 >
 > Optimization of the evaluation function; paramters:
@@ -441,7 +441,7 @@ In feature subset selection they were:
 > 
 > more in [How to design good Tetris players Amine Boumaza](https://hal.inria.fr/hal-00926213/document), [An Evolutionary Approach to Tetris - Niko Böhm G. Kókai, Stefan Mandl](https://www.semanticscholar.org/paper/An-Evolutionary-Approach-to-Tetris-Niko-B%C3%B6hm-K%C3%B3kai-Mandl/b0fe1ed14404db2eb1db6a777961440723d6e06f?p2df)
 
-## Application example (3)
+### Application example (3)
 > Optimization of structure parameters
 > Structural optimization of a part of aircraft’s airframe parameters as 
 > - length (x1)
@@ -455,28 +455,28 @@ In feature subset selection they were:
 > - Encoding: array of real numbers
 > - Evaluation: load-bearing test as experiment, simulation, or regression model
 
-## Application example (4)
+### Application example (4)
 > Optimization of structural topology in engineering design
 > - Encoding: binary matrix
 > - Evaluation: structural / load-bearing performance simulations, weight, cost, ..
 >
 > more in: [STRUCTURAL TOPOLOGY OPTIMIZATION VIA THE GENETIC ALGORITHM by Colin Donald Chapman](https://core.ac.uk/download/pdf/4400373.pdf) or [Structural Topology Optimization Using Genetic Algorithms T.Y. Chen and Y.H. Chiou](http://www.iaeng.org/publication/WCE2013/WCE2013_pp1933-1937.pdf)
 
-## Application example (5)
+### Application example (5)
 > A computer game: [Neuro-Evolving Robotic Operatives (NERO)](http://nn.cs.utexas.edu/nero/)
 > - individual’s behavior is defined by artificial neural network Genetic algorithm optimizes topology of the neural network for maximum combat efficiency of individuals
 > 
 > - Encoding: topology of neural network: 
 > - evaluation: survival time, number of terminated opponents a.o.
 
-## Application example (6)
+### Application example (6)
 > [Evolution of a 2D car](http://rednuht.org/genetic_cars_2/)
 > 
 > the ground is become more-more complex, so what kind of car should be designed
 > - Evaluation: distance driven (on gradually increased terrain complexity)
 > - Encoding: sizes of frame parts, wheel sizes, wheel positions, wheel density, chassis density
 
-## Other algorithms
+### Other algorithms
 other global optimization algorithms:
 - Evolutionary Strategies
 - Particle Swarm Optimization
@@ -485,4 +485,98 @@ other global optimization algorithms:
 - Bee Colony Optimization
 - Memetic Algorithm
 - etc
+
+ ## Symbolic regression
+- enables working with regression models of any form
+- “Conventional” regression methods optimize parameters
+- optimize feature subset to be included in the model 
+- Symbolic regression avoids imposing prior assumptions about necessary model’s form, instead it infers the model’s form from the data in fact the search space is infinite
+- Any symbolic regression model can be represented as a tree
+  - A set of functions 
+  - A set of terminals
+
+### example
+- terminals: x,1,2,3,4,5
+- functions: +,-, *, %
+- example tree: 
+  ```
+  - +
+    - *
+      - x
+      - 2 
+    - %
+      - x
+      - -
+        - 3
+        - x
+  ```
+- coresponding equation: ![\hat{y} = 2x+\frac{x}{3-x}](https://latex.codecogs.com/gif.latex?\hat{y}%20=%202x+\frac{x}{3-x})
+- ***how to find the best regression model for our data?***
+
+### Genetic programming (GP)
+- optimization of variable-length nonlinear (hierarchical) structures
+- automated programming
+- optimizes “computer programs” 
+- based on Genetic Algorithms
+-  solutions of an optimization problem are linear and of fixed length
+   ````
+   101110
+   CBEFAFD
+   ```
+- solutions usually are hierarchical structures - trees
+
+#### What do we need to use GP
+- important components's order
+- How do we encode the structure
+- How do we quantitatively estimate the quality of the structure 
+
+> general algorithm:
+> 
+> 1. Randomly generate initial generation
+> 2. fitness estimation
+> 3. select individuals for reproduction
+> 4. selected individuals produce offspring
+> 5. small random changes in offspring
+> 6. new generation go to step 2
+
+- functions: +, -, %, *,
+- terminals: x, 1, 2, 3, 4, 5, 
+
+> #### Create random tree 
+> 
+> 1. build initial generation (primordial soup)
+>    - with random number generator we get a function and a terminal
+>    - we do this untoil we got the leaf nodes, where only got terminals
+>
+> 2. we create mltiple of this
+> 3. calculate fitness evaluation for each one *smaller values are better*
+> 4. selection: individuals with better fitness values have vigher chnces to  survive
+> 5. crossover: a random subtree is swapped
+>               - choose a subtree randomly in two canddates
+>               - change them
+> 6. mutation: do small random changes
+>              - randomly choose a subtree
+>              - replace it with a new randomly generated one
+>              - if we choose terminals then we can replace it with an another terminal
+>
+> *GP is usually terminated when a predefined number of generations (iterations) are done*
+> 
+>  => the best found solution is outputted (optimality of course is not guaranteed)
+* this is not “ordinary” Genetic Algorithm because in Linear GP the length of chromosomes is not fixed.*
+
+#### applications of GP
+- Source code generation
+- Image compression
+- Designing of radio antennae
+- Automatic design of electronic circuits
+
+more in: [Poli R., Langdon W.B., McPhee N.F. A Field Guide to Genetic Programming, 2008](http://www.gp-field-guide.org.uk/)
+
+
+
+
+
+
+
+
 
