@@ -572,11 +572,48 @@ other global optimization algorithms:
 
 more in: [Poli R., Langdon W.B., McPhee N.F. A Field Guide to Genetic Programming, 2008](http://www.gp-field-guide.org.uk/)
 
+## regression trees
+more in: 
+- [Machine Learning for Biostatistics](https://bookdown.org/tpinto_home/Beyond-Additivity/regression-and-classification-trees.html)
+- [ElemStatLearn book Section 9.2](https://hastie.su.domains/ElemStatLearn)
 
+> ### recursive partitioning
+> alternative to the global models: recursively divide the data in ever smaller subsets until the relationships in each subset are so simple that they can be accurately described using very simple models
 
+> ### regression tree
+> ![simple regression tree](https://bookdown.org/tpinto_home/Beyond-Additivity/tree.png)
+> - **split nodes:** partitioning rules  that use one of the input variables
+> - **leave nodes:** simple models, usually just the mean of *y*of hte corresponding data subset, this is the end of the tree. ***this is the prediction, ŷ***
+> 
+> *the partitioning is usually binary, which means usually 2 subsets*
 
+### advantages:
+- no complex computations: prediction is fast
+- don't give “smooth” predictions, you can still approximate smooth surfaces near enough by either using deeper trees or using ensembles of trees
+- Tree growing already incorporates feature subset selection because irrelevant features won't be used 
 
+### regression tree growin algorithm
+init state: we do not have the tree!
 
+1. create the *root* by containing the netire training data
+2. compute mean of the `y` for training examples of the node. This is *constant model*
+3. compute thte error of *constant model* if it would be the prediction of `y` for the training examples
+4. split the data in the middle betweeen each two adjacent values for each feature x. 
+5. compute how much would SSE reduce because of such patrtitioning  this is SSER:  ![SSER=SSE_{root}-(SSE_{leaf1}+SSE_{leaf2})](https://latex.codecogs.com/gif.latex?SSER=SSE_{root}-(SSE_{leaf1}+SSE_{leaf2})) split the data at the position with biggest reduction.
+6. with each new leaf do this from step 1.
 
+### tree pruning
+-for this we no longer use simple training error because this will overfit our model
 
+that estimates prediction error we can use either some complexity penalization criterion or error estimation ins separate validation data set
 
+1. for each pair of leaf compute criterion and see whether criterion improve if the subtree would be pruned away and their predecessor would be made in a leaf
+2. if would improve do pruning
+
+notes:
+- no guarantee in the optimality of the tree
+
+algorithms:
+- for classification: ID3, CART, RPART, GUIDE, QUEST
+- for rgression:
+- ensembles
